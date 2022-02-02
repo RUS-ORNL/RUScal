@@ -3,6 +3,7 @@ Software to analyze resonant ultrasound spectroscopy measurements.
 
 ********** READ ME *********************************
 Release 2022
+
 Last update: 12/8/2021
 
 RUScal is open-source research software for numerical calculations of the eigenvalues of a free-body mechanical resonator
