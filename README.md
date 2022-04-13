@@ -35,10 +35,12 @@ pandas
 pillow
 
 ---------- Windows ---------------------------------
+
 Download ruscal.exe and move to the desired directory. To execute this program system-wide, add the path of the
 directory containing ruscal.exe to the Path of System Variables.
 
 ---------- Mac and Linux ---------------------------
+
 Ensure the following files are within the same directory:
 rus.c
 matrix.c
