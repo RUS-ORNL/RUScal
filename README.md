@@ -4,7 +4,8 @@ Software to analyze resonant ultrasound spectroscopy measurements.
 ********** READ ME *********************************
 Release 2022
 
-Last update: 12/8/2021
+Last update: 4/12/2021
++ Added a genetic algorithm program to aid with searching for starting parameters and solutions.
 
 RUScal is open-source research software for numerical calculations of the eigenvalues of a free-body mechanical resonator
 based on Rayleigh-Ritz approximation. This software was developed in part at Oak Ridge National Laboratory under 
@@ -76,6 +77,9 @@ Use the follow procedure to make a new rusin file:
             Set the Bounds value of each elastic constant to a number equal to 1/1000 deviation. E.g., entering a 
             value of 40 is equivalent to varying the elastic constant by 40/1000 or 4%. Only three constants can be
             varied at a time. Entering nonzero Bounds for more than 3 will only calculate for the first three.
+   5g. -5 = Genetic algorithm determination of elastic constants. It initiates similar to Monte Carlo routine but with 
+            follow-up sorting of the most 'fit' parents that produce offspring towards convergence on the lowest-lying
+            solution.
 6. Toggle the calculation of derivatives, df/dcxx. Checked = calculate.
 7. Select number of mirror planes. Use default of zero if unsure.
 8. Enter values for each Euler angle, if applicable (for single crystals).
