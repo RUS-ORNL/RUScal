@@ -1,7 +1,7 @@
 # RUScal
 Software to analyze resonant ultrasound spectroscopy measurements.
 
-********** READ ME *********************************
+********** READ ME ******************************/n
 Release 2022
 
 Last update: 4/12/2021
@@ -15,11 +15,11 @@ LLC, for the U. S. Department of Energy.
 For publications or presentations that made use of this software, please cite the following:
 [insert when accepted]
 
-********** Contacts ********************************
+********** Contacts ******************************/n
 Author: Raphael Hermann, hermannrp@ornl.gov
 Additional contact: James Torres, torresdrex@gmail.com 
 
-********** Getting Started *************************
+********** Getting Started ************************/n
 There is no auto-installer included, so the software is compiled manually. 
 The source code may be downloaded directly from the GitHub database.
 URL: https://github.com/JT-ORNL/RUScal.git
