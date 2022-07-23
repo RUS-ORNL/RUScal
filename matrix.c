@@ -1353,7 +1353,7 @@ for(i=33;i<36;i++)
    
     
 fprintf(fp,"\n");
-fprintf(fp,"\nFor publications resulting from the use of this software, please cite J. Torres et al., JASA ?? (202?)\n");
+fprintf(fp,"\nFor publications resulting from the use of this software, please cite J. Torres et al., JASA 151, 3547 (2022)\n");
 
 free_ivector(dvar);
 fclose (fp);
