@@ -49,7 +49,7 @@ int main (int argc, char *argv[])
 	double cbuff,sum,b_mass,b_param; // Helper variables
     
     printf("\n======================================\n");	
-    printf("Please cite J. Torres et al., JASA ?? (202?)\n");
+    printf("Please cite J. Torres et al., JASA 151, 3547 (2022)\n");
     printf("======================================\n");	  
 	
 	read_input (filename,&COMM,iparm, param,fex,w);
