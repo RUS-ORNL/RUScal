@@ -49,7 +49,8 @@ int main (int argc, char *argv[])
 	double cbuff,sum,b_mass,b_param; // Helper variables
     
     printf("\n======================================\n");	
-    printf("Please cite J. Torres et al., JASA 151, 3547 (2022)\n");
+    printf("Please cite J. Torres et al., JASA 151, 3547 (202?)\n");
+    printf("https://doi.org/10.1121/10.0011397\n");
     printf("======================================\n");	  
 	
 	read_input (filename,&COMM,iparm, param,fex,w);
@@ -170,7 +171,15 @@ int main (int argc, char *argv[])
 			mclc[i]=param[i]*(1.-iparm[i]/1000.); // Lower bound for parameter i
 			mcdc[i]=param[i]*2.*iparm[i]/1000.;   // Delta for parameter i
 		}
-				
+		// Added loop to enable MC for angles. 20221028
+		for(i=33;i<=35;i++)  
+		{
+			mclc[i]=param[i]-iparm[i]; // Lower bound for parameter i
+			mcdc[i]=2.*iparm[i];   // Delta for parameter i
+		}		
+		
+		
+		
 		for(j=0;j<sizeofmc;j=j+1)
 		{
 			for(i=1;i<=iparm[36]%10;i++)
@@ -178,7 +187,13 @@ int main (int argc, char *argv[])
 			param[i]=mclc[i]+mcdc[i]*(double)rand()/(double)RAND_MAX;
 			sol1[j].param_c[i]=param[i]; // Store value of tested solution
 			}
-		
+			// Added loop to enable MC for angles. 20221028
+			for(i=33;i<=35;i++) 
+			{
+			param[i]=mclc[i]+mcdc[i]*(double)rand()/(double)RAND_MAX;
+			sol1[j].param_c[i]=param[i]; // Store value of tested solution
+			}
+			
 		calclines (lookup,param,iparm,dfact,fth,fsym);
 		chi2=fchisq(fex, fth, w,fth,iparm[44],ndata);
 		free_vector((double *)fth[0]); // Clean memory after calculating lines.
@@ -191,6 +206,10 @@ int main (int argc, char *argv[])
 		for(i=1;i<=nc;i++)
 			{
 			fprintf(fp,"%8.6f ",param[i]); // Prints value of tested parameters.
+			}
+		for(i=33;i<=35;i++)
+			{
+				fprintf(fp,"%8.6f ",param[i]); // Prints value of tested parameters.
 			}
 		fprintf(fp,"\n");
 		fclose(fp);
@@ -218,6 +237,12 @@ int main (int argc, char *argv[])
 			fprintf(fp,"%8.6f ",sol1[j].param_c[i]);
 			pop[j].param_c[i]=sol1[j].param_c[i]; // Use this loop to make a copy for the next generation.
 			}
+			for(i=33;i<=35;i++)
+			{
+			fprintf(fp,"%8.6f ",sol1[j].param_c[i]);
+			pop[j].param_c[i]=sol1[j].param_c[i]; // Use this loop to make a copy for the next generation.
+			}
+						
 		fprintf(fp,"\n");
 		}
 		fclose(fp);
@@ -261,6 +286,24 @@ int main (int argc, char *argv[])
 				sol1[j].param_c[i]=pop[i1].param_c[i]*breed+pop[i2].param_c[i]*(1-breed)+mut*iparm[i]/1000.;
 				param[i]=sol1[j].param_c[i]; // Prepares parameter vector for next calculation of lines.
 				}
+				for(i=33;i<=35;i++) // Loop over Euler Angles.
+				{
+					mut=(double)rand()/(double)RAND_MAX; // Probability of mutation.
+					if(mut<(mut_prob))		// Mutation frequency; default 1/number of constants. 
+					{
+						mut=( (mut*mut_prob)-0.5 )/(l+1); // Mutation range is -0.5<mut<0.5 of initial box (below iparm[i]/1000.) at step 0 then gets reduced at next generation.
+					}  
+				else
+					{
+						mut=0; // No mutation for this elastic constant.
+					} 
+				// Generate new solution.
+				sol1[j].param_c[i]=pop[i1].param_c[i]*breed+pop[i2].param_c[i]*(1-breed)+mut*iparm[i]/1.;
+				param[i]=sol1[j].param_c[i]; // Prepares parameter vector for next calculation of lines.
+				}				
+				
+				
+				
 				calclines (lookup,param,iparm,dfact,fth,fsym);
 				chi2=fchisq(fex, fth, w,fth,iparm[44],ndata);
 				free_vector((double *)fth[0]); // Clean memory after calculating lines.
@@ -290,6 +333,10 @@ int main (int argc, char *argv[])
 					{
 						sol1[j].param_c[i]=pop[k].param_c[i];
 					}
+					for(i=33;i<=35;i++)
+					{
+						sol1[j].param_c[i]=pop[k].param_c[i];
+					}
 					k++;
 				}
 				qsort (sol1,sizeofmc, sizeof (solution), compare_solution);	
@@ -306,6 +353,11 @@ int main (int argc, char *argv[])
 				pop[j].chi2=sol1[j].chi2;
 				
 				for(i=1;i<=nc;i++)
+				{
+					fprintf(fp,"%8.6f ",sol1[j].param_c[i]);
+					pop[j].param_c[i]=sol1[j].param_c[i];
+				}
+				for(i=33;i<=35;i++)
 				{
 					fprintf(fp,"%8.6f ",sol1[j].param_c[i]);
 					pop[j].param_c[i]=sol1[j].param_c[i];
@@ -329,6 +381,20 @@ int main (int argc, char *argv[])
 				iparm[i]=1; // Parameters with no mc interval become fixed
 			}      
 		}		
+		for(i=33;i<=35;i++)
+		{
+			param[i]=pop[0].param_c[i]; // Choose best solution.
+			k=iparm[i];
+			if(k!=0)
+			{
+				iparm[i]=0; // Parameters with mc interval become free
+			}  
+			else
+			{
+				iparm[i]=1; // Parameters with no mc interval become fixed
+			}      
+		}		
+
 		iparm[38]=0; // Toggle back to fit mode.
 		param[60]=0.00001; // Toggle chi2 stopping precision to 1E-5.
 		iparm[61]=1; // Toggle error analysis to rigorous.
