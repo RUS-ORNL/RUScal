@@ -14,12 +14,12 @@ the Laboratory Directed Research and Development Program of Oak Ridge National L
 LLC, for the U. S. Department of Energy.
 
 For publications or presentations that made use of this software, please cite the following:
-[insert when accepted]
+J. Torres et al., J. Acoust. Soc. Am. 151, 3547–3563 (2022).
 
 ********** Contacts ******************************
 
 Author: Raphael Hermann, hermannrp@ornl.gov
-Additional contact: James Torres, torresdrex@gmail.com 
+Additional contact: James Torres, torresdrex@gmail.com OR torresjr@ornl.gov 
 
 ********** Getting Started ************************
 
